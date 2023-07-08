@@ -53,7 +53,7 @@ export class RegisterComponent {
         this.authService.register(this.registerForm.value).subscribe((res: { token: string }) => {
           if (res && res.token) {
             this.jwtService.saveToken(res.token);
-            this.notificationService.showSuccess('Welcom to Chatties', 'User Registered SuccessFull');
+            this.notificationService.showSuccess('Welcome to Chatties', 'User Registered SuccessFull');
             this.router.navigateByUrl('/chat');
           } else {
             this.notificationService.showError('Please Try To Register Again', 'Registration Failed');

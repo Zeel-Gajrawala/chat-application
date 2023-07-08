@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth/auth.service';
 import { NotificationService } from './services/notification/notification.service';
 import { JwtService } from './services/jwt/jwt.service';
+import { SocketioService } from './services/socketio/socketio.service';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { JwtService } from './services/jwt/jwt.service';
     CommonModule
   ],
   providers: [
+    SocketioService,
     AuthService,
     NotificationService,
     JwtService

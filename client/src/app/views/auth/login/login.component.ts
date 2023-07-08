@@ -35,7 +35,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe((res: { token: string }) => {
         if (res && res.token) {
           this.jwtService.saveToken(res.token);
-          this.notificationService.showSuccess('Welcom to Chatties', 'Login SuccessFull');
+          this.notificationService.showSuccess('Welcome to Chatties', 'Login SuccessFull');
           this.router.navigateByUrl('/chat');
         } else {
           this.notificationService.showError('Please Try To Login Again', 'Login Failed');
