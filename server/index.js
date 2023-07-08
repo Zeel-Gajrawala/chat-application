@@ -1,4 +1,4 @@
-require('./config/db');
+require("./config/db");
 require("dotenv").config();
 
 const bodyParser = require("body-parser");
