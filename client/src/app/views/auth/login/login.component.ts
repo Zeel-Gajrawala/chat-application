@@ -13,10 +13,11 @@ import { NotificationService } from 'src/app/core/services/notification/notifica
 })
 export class LoginComponent {
 
+  showPassword: boolean = false;
   submitAttempted: boolean = false;
 
   loginForm = this.fb.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
 

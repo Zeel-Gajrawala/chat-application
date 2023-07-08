@@ -15,12 +15,29 @@
             placeholder="Email"
             class="input mb-1"
           />
-          <span
-            *ngIf="submitAttempted && loginForm.controls['email'].invalid"
-            class="help-block text-danger"
-            [innerHTML]="'Please Enter Email Address'"
+          <ng-container
+            *ngIf="
+              loginForm.controls['email'] && loginForm.controls['email'].errors
+            "
           >
-          </span>
+            <span
+              *ngIf="
+                submitAttempted &&
+                loginForm.controls['email'].errors['required']
+              "
+              class="help-block text-danger"
+              [innerHTML]="'Please Enter Email Address'"
+            >
+            </span>
+            <span
+              *ngIf="
+                submitAttempted && loginForm.controls['email'].errors['email']
+              "
+              class="help-block text-danger"
+              [innerHTML]="'Please Enter Valid Email Address'"
+            >
+            </span>
+          </ng-container>
         </div>
 
         <div
@@ -30,7 +47,7 @@
           }"
         >
           <input
-            type="password"
+            [type]="showPassword ? 'text' : 'password'"
             placeholder="Password"
             formControlName="password"
             class="password mb-1"
@@ -41,12 +58,16 @@
             [innerHTML]="'Please Enter Password'"
           >
           </span>
-          <i class="bx bx-hide eye-icon"></i>
+          <img
+            class="eye-icon"
+            (click)="showPassword = !showPassword"
+            [src]="
+              '/assets/images/icons/' +
+              (showPassword ? 'view-eye.png' : 'hide-eye.png')
+            "
+            alt="eye"
+          />
         </div>
-
-        <!-- <div class="form-link">
-          <a href="#" class="forgot-pass">Forgot password?</a>
-        </div> -->
 
         <div class="field button-field">
           <button (click)="login()">Login</button>
@@ -56,7 +77,9 @@
       <div class="form-link">
         <span
           >Don't have an account?
-          <a href="#" class="link signup-link">Signup</a></span
+          <a routerLink="/auth/register" class="link signup-link"
+            >Signup</a
+          ></span
         >
       </div>
     </div>

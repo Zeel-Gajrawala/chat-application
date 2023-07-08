@@ -1,0 +1,182 @@
+<section class="d-flex justify-content-center align-items-center forms">
+  <div class="form signup">
+    <div class="form-content">
+      <header>Signup</header>
+      <form [formGroup]="registerForm">
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5':
+              submitAttempted && registerForm.controls['first_name'].invalid
+          }"
+        >
+          <input
+            type="text"
+            autocomplete="cc-additional-name"
+            formControlName="first_name"
+            placeholder="First Name"
+            class="input mb-1"
+          />
+          <span
+            *ngIf="
+              submitAttempted && registerForm.controls['first_name'].invalid
+            "
+            class="help-block text-danger"
+            [innerHTML]="'Please Enter First Name'"
+          >
+          </span>
+        </div>
+
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5':
+              submitAttempted && registerForm.controls['last_name'].invalid
+          }"
+        >
+          <input
+            type="text"
+            autocomplete="cc-additional-name"
+            formControlName="last_name"
+            placeholder="Last Name"
+            class="input mb-1"
+          />
+          <span
+            *ngIf="
+              submitAttempted && registerForm.controls['last_name'].invalid
+            "
+            class="help-block text-danger"
+            [innerHTML]="'Please Enter Last Name'"
+          >
+          </span>
+        </div>
+
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5': submitAttempted && registerForm.controls['email'].invalid
+          }"
+        >
+          <input
+            type="email"
+            autocomplete="cc-additional-name"
+            formControlName="email"
+            placeholder="Email"
+            class="inputmb-1"
+          />
+          <ng-container
+            *ngIf="
+              registerForm.controls['email'] &&
+              registerForm.controls['email'].errors
+            "
+          >
+            <span
+              *ngIf="
+                submitAttempted &&
+                registerForm.controls['email'].errors['required']
+              "
+              class="help-block text-danger"
+              [innerHTML]="'Please Enter Email Address'"
+            >
+            </span>
+            <span
+              *ngIf="
+                submitAttempted &&
+                registerForm.controls['email'].errors['email']
+              "
+              class="help-block text-danger"
+              [innerHTML]="'Please Enter Valid Email Address'"
+            >
+            </span>
+          </ng-container>
+        </div>
+
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5': submitAttempted && registerForm.controls['password'].invalid
+          }"
+        >
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            autocomplete="cc-additional-name"
+            placeholder="Create password"
+            class="password mb-1"
+            formControlName="password"
+          />
+          <span
+            *ngIf="submitAttempted && registerForm.controls['password'].invalid"
+            class="help-block text-danger"
+            [innerHTML]="'Please Enter Password'"
+          >
+          </span>
+          <img
+            class="eye-icon"
+            (click)="showPassword = !showPassword"
+            [src]="
+              '/assets/images/icons/' +
+              (showPassword ? 'view-eye.png' : 'hide-eye.png')
+            "
+            alt="eye"
+          />
+        </div>
+
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5':
+              (submitAttempted &&
+                registerForm.controls['confirmPassword'].invalid) ||
+              (registerForm.controls['confirmPassword'].valid && !isMatching)
+          }"
+        >
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            autocomplete="cc-additional-name"
+            placeholder="Confirm password"
+            class="password mb-1"
+            formControlName="confirmPassword"
+            (input)="passwordMatch()"
+          />
+          <span
+            *ngIf="
+              submitAttempted &&
+              registerForm.controls['confirmPassword'].invalid
+            "
+            class="help-block text-danger"
+            [innerHTML]="'Please Confirm Password'"
+          >
+          </span>
+          <span
+            *ngIf="
+              registerForm.controls['confirmPassword'].valid && !isMatching
+            "
+            class="help-block text-danger"
+            [innerHTML]="'Password Doesn\'t Match'"
+          >
+          </span>
+          <img
+            class="eye-icon"
+            (click)="showConfirmPassword = !showConfirmPassword"
+            [src]="
+              '/assets/images/icons/' +
+              (showConfirmPassword ? 'view-eye.png' : 'hide-eye.png')
+            "
+            alt="eye"
+          />
+        </div>
+
+        <div class="field button-field">
+          <button (click)="register()">Signup</button>
+        </div>
+      </form>
+
+      <div class="form-link">
+        <span
+          >Already have an account?
+          <a routerLink="/auth/login" class="link login-link">Login</a></span
+        >
+      </div>
+    </div>
+  </div>
+</section>

@@ -8,6 +8,7 @@ import { AuthModule } from './views/auth/auth.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     CoreModule,
     AuthModule,
     ToastrModule.forRoot({
@@ -24,7 +26,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => localStorage.getItem('access_token')
+        tokenGetter: () => localStorage.getItem('token')
       }
     }),
   ],
