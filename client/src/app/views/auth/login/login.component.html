@@ -1,0 +1,64 @@
+<section class="d-flex justify-content-center align-items-center forms">
+  <div class="form login">
+    <div class="form-content">
+      <header>Login</header>
+      <form [formGroup]="loginForm">
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5': submitAttempted && loginForm.controls['email'].invalid
+          }"
+        >
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Email"
+            class="input mb-1"
+          />
+          <span
+            *ngIf="submitAttempted && loginForm.controls['email'].invalid"
+            class="help-block text-danger"
+            [innerHTML]="'Please Enter Email Address'"
+          >
+          </span>
+        </div>
+
+        <div
+          class="field input-field"
+          [ngClass]="{
+            'mb-5': submitAttempted && loginForm.controls['password'].invalid
+          }"
+        >
+          <input
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+            class="password mb-1"
+          />
+          <span
+            *ngIf="submitAttempted && loginForm.controls['password'].invalid"
+            class="help-block text-danger"
+            [innerHTML]="'Please Enter Password'"
+          >
+          </span>
+          <i class="bx bx-hide eye-icon"></i>
+        </div>
+
+        <!-- <div class="form-link">
+          <a href="#" class="forgot-pass">Forgot password?</a>
+        </div> -->
+
+        <div class="field button-field">
+          <button (click)="login()">Login</button>
+        </div>
+      </form>
+
+      <div class="form-link">
+        <span
+          >Don't have an account?
+          <a href="#" class="link signup-link">Signup</a></span
+        >
+      </div>
+    </div>
+  </div>
+</section>
