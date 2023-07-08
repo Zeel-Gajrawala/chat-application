@@ -24,7 +24,7 @@ export class JwtService {
 
   isLoggedIn() {
     let token = this.getToken();
-    return (token && token.length > 0) ? true : false;
+    return (token && !this.jwtHelper.isTokenExpired(token)) ? true : false;
   }
 
   // save Access token
