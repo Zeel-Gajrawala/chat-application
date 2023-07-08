@@ -13,21 +13,25 @@ const io = require("socket.io")(http, {
   },
 });
 
+//passing socket instance and calling file
+require("./controllers/socketio.controller")(io);
+
 app.use(bodyParser.json());
 app.use(cors());
 
 //routes
 app.use("/api", authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("<h1>Hey I'm Chat Application Backend</h1>");
+/** catch 404 and forward to error handler */
+app.use('*', (req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: 'API endpoint doesnt exist'
+  })
 });
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
+app.get("/", (req, res) => {
+  res.send("<h1>Hey I'm Chat Application Backend</h1>");
 });
 
 http.listen(process.env.PORT, () => {
