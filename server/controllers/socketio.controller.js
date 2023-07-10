@@ -1,23 +1,32 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 exports = module.exports = function (io) {
   io.use(async (socket, next) => {
-  // fetch token from handshake auth sent by FE
-  const token = socket.handshake.auth.token;
-  try {
-    // verify jwt token and get user data
-    const user = await jwt.verify(token, process.env.TOKEN_KEY);
-    console.log('user', user);
-    // save the user data into socket object, to be used further
-    socket.user = user;
-    next();
-  } catch (e) {
-    // if token is invalid, close connection
-    console.log('error', e.message);
-    return next(new Error(e.message));
-  }
+    // fetch token from handshake auth sent by FE
+    const token = socket.handshake.auth.token;
+    
+    if (!token) {
+      return res.status(403).send("Token Required");
+    }
+    
+    try {
+      // verify jwt token and get user data
+      const user = await jwt.verify(token, process.env.TOKEN_KEY);
+      console.log("user", user);
+      // save the user data into socket object, to be used further
+      socket.user = user;
+      next();
+    } catch (e) {
+      // if token is invalid, close connection
+      console.log("error ==>", e.message);
+      return next(new Error(e.message));
+    }
   });
-  
+
   io.on("connection", (socket) => {
-    socket.join(user.id);
+    socket.join(socket.user.user_id);
+    socket.join('myRandomChatRoomId');
 
     socket.on("send message", (message) => {
       console.log("send msg", message);
@@ -35,15 +44,15 @@ exports = module.exports = function (io) {
       // generate data to send to receivers
       const outgoingMessage = {
         name: socket.user.name,
-        id: socket.user.id,
+        id: socket.user.user_id,
         message,
       };
 
       // send socket to all in room except sender
-      socket.to(roomName).emit("message", outgoingMessage);
-      callback({
-        status: "ok",
-      });
+      socket.to(roomName).emit("receive message", outgoingMessage);
+      // callback({
+      //   status: "ok",
+      // });
     });
 
     socket.on("disconnect", () => {
