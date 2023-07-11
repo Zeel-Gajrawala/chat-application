@@ -13,4 +13,8 @@ export class UserService {
   getAllUserExceptCurrent() {
     return this.http.get<User[]>(`${environment.API_ENDPOINT}api/user/`);
   }
+
+  createRoom(roomData: { sender_id: string, receiver_Id: string, roomId: string }) {
+    return this.http.post<User[]>(`${environment.API_ENDPOINT}api/user/room/`, roomData, { observe: 'response' });
+  }
 }

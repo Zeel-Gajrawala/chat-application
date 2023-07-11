@@ -8,12 +8,10 @@ import { User } from 'src/app/core/models/user';
 })
 export class SidebarComponent implements OnInit {
 
-  expandStatuses: boolean = false;
-  expanded: boolean = false;
-
   @Input() activeUser: User = {};
   @Input() users: User[] = [];
   @Input() currentUser: User = {};
+  @Input() chatArray: { roomId: string, chat: { userId: string, message: string }[] }[] = [];
 
   @Output() activeUserChange: EventEmitter<User> = new EventEmitter<User>();
 

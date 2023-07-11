@@ -74,20 +74,20 @@
     float: left;
 }
 
-#frame .content .contact-profile .social-media {
+#frame .content .contact-profile .logout {
     float: right;
 }
 
-#frame .content .contact-profile .social-media i {
+#frame .content .contact-profile .logout img {
     margin-left: 14px;
     cursor: pointer;
 }
 
-#frame .content .contact-profile .social-media i:nth-last-child(1) {
+#frame .content .contact-profile .logout img:nth-last-child(1) {
     margin-right: 20px;
 }
 
-#frame .content .contact-profile .social-media i:hover {
+#frame .content .contact-profile .logout img:hover {
     color: #435f7a;
 }
 

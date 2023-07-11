@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { io } from 'socket.io-client';
+import { Observable } from 'rxjs';
+import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketioService {
-  socket: any;
+  socket!: Socket;
 
   constructor() { }
 
@@ -16,25 +17,27 @@ export class SocketioService {
         token: token,
       },
     });
-    // this.socket.emit('send message', 'hello from angular');
-    // // console.log(this.socket);
-    // this.socket.on('received message', (message: string) => {
-    //   console.log('received msg', message);
-
-    // })
   }
 
-  receiveMessages(cb: any) {
-    if (this.socket) {
-      this.socket.on('receive message', (msg: any) => {
-        return cb(null, msg);
+  joinRoom(data: { receiverId: string, roomId: string }) {
+    this.socket.emit('join', data);
+  }
+
+  receiveMessages(): Observable<any> {
+    return new Observable<{ user: string, message: string, type: string }>(observer => {
+      this.socket.on('new message', (data: any) => {
+        observer.next(data);
       });
-    }
+
+      // return () => {
+      //   this.disconnect();
+      // }
+    });
   }
 
-  sendMessage(sendMessage: { message: string; roomName: string }, cb: any) {
+  sendMessage(sendMessage: { user: string, room: string, message: string }) {
     if (this.socket) {
-      this.socket.emit('receive message', sendMessage, cb);
+      this.socket.emit('message', sendMessage);
     }
   }
 
@@ -42,5 +45,14 @@ export class SocketioService {
     if (this.socket) {
       this.socket.disconnect();
     }
+  }
+
+  storeChat(chatArray: { roomId: string, chat: { userId: string, message: string }[] }[]) {
+    localStorage.setItem('chats', JSON.stringify(chatArray));
+  }
+
+  getStoredChat() {
+    const storage: string = localStorage.getItem('chats')!;
+    return storage ? JSON.parse(storage) : [];
   }
 }

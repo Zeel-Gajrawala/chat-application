@@ -412,29 +412,6 @@
      }
  }
 
- #sidepanel #contacts ul li.contact .wrap span {
-     position: absolute;
-     left: 0;
-     margin: -2px 0 0 -2px;
-     width: 10px;
-     height: 10px;
-     border-radius: 50%;
-     border: 2px solid #2c3e50;
-     background: #95a5a6;
- }
-
- #sidepanel #contacts ul li.contact .wrap span.online {
-     background: #2ecc71;
- }
-
- #sidepanel #contacts ul li.contact .wrap span.away {
-     background: #f1c40f;
- }
-
- #sidepanel #contacts ul li.contact .wrap span.busy {
-     background: #e74c3c;
- }
-
  #sidepanel #contacts ul li.contact .wrap .contact-img {
      width: 40px;
      height: 40px;
@@ -451,6 +428,9 @@
 
  #sidepanel #contacts ul li.contact .wrap .meta {
      padding: 5px 0 0 0;
+     display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;
  }
 
  @media screen and (max-width: 735px) {

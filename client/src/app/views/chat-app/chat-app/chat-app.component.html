@@ -4,6 +4,7 @@
       <app-sidebar
         [users]="users"
         [currentUser]="currentUser"
+        [chatArray]="chatArray"
         [(activeUser)]="activeUser"
       ></app-sidebar>
     </div>
@@ -11,32 +12,39 @@
     <div class="content" *ngIf="activeUser._id && activeUser._id.length > 0">
       <div class="contact-profile">
         <div
-          class="contact-img"
-          (click)="expandStatuses = !expandStatuses"
+          class="contact-img d-flex justify-content-center align-items-center"
           [ngStyle]="{ background: 'red' }"
         >
-          <h4 class="text-center pt-2">{{ activeUser.first_name![0] }}</h4>
+          <h4 class="text-center mb-0">{{ activeUser.first_name![0] }}</h4>
         </div>
         <!-- <img class="contact-img" [src]="activeUser.img" alt="" /> -->
         <p>{{ activeUser.first_name }} {{ activeUser.last_name }}</p>
-        <div class="social-media">
-          <i class="fa fa-facebook" aria-hidden="true"></i>
-          <i class="fa fa-twitter" aria-hidden="true"></i>
-          <i class="fa fa-instagram" aria-hidden="true"></i>
+
+        <div class="logout" (click)="logout()">
+          <p class="mb-0">Logout</p>
+          <img src="/assets/images/icons/logout.png" alt="logout" />
         </div>
       </div>
       <div class="messages" #scrollMe>
         <ul class="p-0">
-          <li [class]="msg.type" *ngFor="let msg of activeUser?.messages">
+          <li
+            [class]="msg.userId === currentUser.user_id ? 'sent' : 'replies'"
+            *ngFor="let msg of messageArr"
+          >
             <div
-              class="chat-img"
-              (click)="expandStatuses = !expandStatuses"
-              [ngStyle]="{ background: msg.type === 'sent' ? 'green' : 'red' }"
-              [ngClass]="msg.type === 'sent' ? 'sender-img' : 'receiver-img'"
+              class="chat-img d-flex justify-content-center align-items-center"
+              [ngStyle]="{
+                background: msg.userId === currentUser.user_id ? 'green' : 'red'
+              }"
+              [ngClass]="
+                msg.userId === currentUser.user_id
+                  ? 'sender-img'
+                  : 'receiver-img'
+              "
             >
-              <h6 class="text-center pt-1">
+              <h6 class="text-center mb-0">
                 {{
-                  msg.type === "sent"
+                  msg.userId === currentUser.user_id
                     ? currentUser.first_name![0]
                     : activeUser.first_name![0]
                 }}
@@ -71,4 +79,39 @@
   </div>
 </div>
 
-<ng-template #load></ng-template>
+<ng-template #load>
+  <div
+    style="height: 100vh"
+    class="d-flex justify-content-center align-items-center"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      style="
+        margin: auto;
+        background: rgba(255, 255, 255, 0);
+        display: block;
+        shape-rendering: auto;
+      "
+      width="200px"
+      height="200px"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="xMidYMid"
+    >
+      <path
+        d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50"
+        fill="#2c3e50"
+        stroke="none"
+      >
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          dur="1s"
+          repeatCount="indefinite"
+          keyTimes="0;1"
+          values="0 50 51;360 50 51"
+        ></animateTransform>
+      </path>
+    </svg>
+  </div>
+</ng-template>
