@@ -13,7 +13,7 @@ exports = module.exports = function (io) {
     try {
       // verify jwt token and get user data
       const user = await jwt.verify(token, process.env.TOKEN_KEY);
-      console.log("user", user);
+      
       // save the user data into socket object, to be used further
       socket.user = user;
       next();
