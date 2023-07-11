@@ -29,11 +29,11 @@ app.get("/", (req, res) => {
 });
 
 /** catch 404 and forward to error handler */
-app.use('*', (req, res) => {
+app.use("*", (req, res) => {
   return res.status(404).json({
     success: false,
-    message: 'API endpoint doesnt exist'
-  })
+    message: "API endpoint doesnt exist",
+  });
 });
 
 http.listen(process.env.PORT, () => {
