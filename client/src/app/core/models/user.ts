@@ -5,4 +5,5 @@ export interface User {
     email?: string
     password?: string
     date?: string | Date
+    messages?: { type: string, message: string }[]
 }

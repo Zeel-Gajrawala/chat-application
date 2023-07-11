@@ -8,7 +8,8 @@ import { AuthModule } from './views/auth/auth.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './core/auth/interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,12 @@ import { HttpClientModule } from '@angular/common/http';
     }),
   ],
   providers: [
-    JwtHelperService
+    JwtHelperService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

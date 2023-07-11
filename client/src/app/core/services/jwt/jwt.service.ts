@@ -38,8 +38,8 @@ export class JwtService {
   }
 
   // delete Access token
-  deleteAccessToken() {
-    localStorage.removeItem('access_token');
+  deleteToken() {
+    localStorage.removeItem('token');
   }
 
   //save data in localstorage

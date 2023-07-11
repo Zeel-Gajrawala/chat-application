@@ -4,6 +4,7 @@ import { STATUSES } from './model';
 import { USERS } from './data';
 import { User } from 'src/app/core/models/user';
 import { SocketioService } from 'src/app/core/services/socketio/socketio.service';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'app-chat-app',
@@ -12,28 +13,26 @@ import { SocketioService } from 'src/app/core/services/socketio/socketio.service
 })
 export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
 
+  loader: boolean = true;
   statuses = STATUSES;
-  activeUser: any;
+  activeUser: User = {};
   users = USERS;
-  expandStatuses = false;
-  expanded = false;
-  currentUser: User = {}
-
-  colorArr: string[] = ['#0000FF', '#6495ED', '#008B8B', '#8a2be2', '#8B008B', '#964B00', '#5F9EA0', '#7B3F00', '#FF7F50', '#8B4000'];
+  expandStatuses: boolean = false;
+  expanded: boolean = false;
+  currentUser: User = {};
 
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
   constructor(
     private jwtService: JwtService,
-    private socketioService: SocketioService
+    private socketioService: SocketioService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
     this.initialiseSocketConnection();
     this.currentUser = this.jwtService.getTokenPayload();
-    this.setUserActive(this.users[0]);
-    // this.setUserActive(this.jwtService.getTokenPayload);
-    this.scrollToBottom();
+    this.getUsers();
   }
 
   ngAfterViewChecked() {
@@ -42,6 +41,17 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnDestroy(): void {
     this.socketioService.disconnect();
+  }
+
+  getUsers() {
+    this.userService.getAllUserExceptCurrent().subscribe((res: User[]) => {
+      if (res && res.length > 0) {
+        this.users = res;
+        this.setUserActive(this.users[0]);
+        this.scrollToBottom();
+      }
+      this.loader = false;
+    })
   }
 
   initialiseSocketConnection() {
@@ -53,7 +63,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.socketioService.receiveMessages((err: any, data: any) => {
         console.log('new message', data);
 
-        this.activeUser.messages.push({
+        this.activeUser.messages?.push({
           type: 'replies',
           message: data.message
         })
@@ -64,7 +74,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
   addNewMessage(inputField: any) {
     const val = inputField.value?.trim()
     if (val.length) {
-      this.activeUser.messages.push({ type: 'sent', message: val })
+      this.activeUser.messages?.push({ type: 'sent', message: val })
       this.socketioService.sendMessage({ message: val, roomName: 'myRandomChatRoomId' }, (cb: any) => {
         console.log("ACKNOWLEDGEMENT ", cb);
 

@@ -1,115 +1,24 @@
-<div class="chatties-app">
+<div class="chatties-app" *ngIf="!loader; else load">
   <div id="frame">
-    <div id="sidepanel">
-      <div id="profile" [class.expanded]="expanded">
-        <div class="wrap">
-          <!-- <img
-            id="profile-img"
-            (click)="expandStatuses = !expandStatuses"
-            [src]="messageReceivedFrom.img"
-            alt=""
-          /> -->
-          <div
-            class="profile-img"
-            (click)="expandStatuses = !expandStatuses"
-            [ngStyle]="{ background: 'green' }"
-          >
-            <h4 class="text-center pt-2">{{ currentUser.first_name![0] }}</h4>
-          </div>
-          <p>{{ currentUser.first_name }} {{ currentUser.last_name }}</p>
-          <i
-            class="fa fa-chevron-down expand-button"
-            (click)="expanded = !expanded"
-            aria-hidden="true"
-          ></i>
-          <div id="status-options" [class.active]="expandStatuses">
-            <ul>
-              <li
-                *ngFor="let item of statuses | keyvalue"
-                [attr.id]="'status-' + item.value"
-                (click)="activeUser.status = item.value; expandStatuses = false"
-                [class.active]="item.value === activeUser.status"
-                [class]="item.value"
-              >
-                <span class="status-circle"></span>
-                <p style="text-transform: capitalize">{{ item.value }}</p>
-              </li>
-            </ul>
-          </div>
-          <div id="expanded">
-            <ng-container
-              *ngFor="let item of activeUser?.social | json | keyvalue"
-            >
-              <label for="twitter"
-                ><i
-                  class="fa fa-fw"
-                  [class]="'fa-' + item.key"
-                  aria-hidden="true"
-                ></i
-              ></label>
-              <input [name]="item.key" type="text" [value]="item.value" />
-            </ng-container>
-          </div>
-        </div>
-      </div>
-      <div id="search">
-        <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-        <input type="text" placeholder="Search contacts..." />
-      </div>
-      <div id="contacts" [class.expanded]="expanded">
-        <ul class="sidebar-chat-list ps-0">
-          <li
-            class="contact"
-            *ngFor="let user of users; let i = index"
-            (click)="setUserActive(user)"
-            [class.active]="activeUser.id === user.id"
-          >
-            <div class="wrap">
-              <!-- <span class="contact-status" [class]="user.status"></span> -->
-              <div
-                class="contact-img"
-                (click)="expandStatuses = !expandStatuses"
-                [ngStyle]="{
-                  background:
-                    colorArr[$any(i.toString().charAt(i.toString().length - 1))]
-                }"
-              >
-                <h4 class="text-center pt-2">{{ user.name[0] }}</h4>
-              </div>
-              <!-- <img class="contact-img" [src]="user.img" alt="" /> -->
-              <div class="meta">
-                <p class="name">{{ user.name }}</p>
-                <p class="preview">
-                  {{ user.messages[user.messages?.length - 1]?.message || "" }}
-                </p>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div id="bottom-bar">
-        <button id="addcontact">
-          <i class="fa fa-user-plus fa-fw" aria-hidden="true"></i>
-          <span>Add contact</span>
-        </button>
-        <button id="settings">
-          <i class="fa fa-cog fa-fw" aria-hidden="true"></i>
-          <span>Settings</span>
-        </button>
-      </div>
+    <div class="sidebar">
+      <app-sidebar
+        [users]="users"
+        [currentUser]="currentUser"
+        [(activeUser)]="activeUser"
+      ></app-sidebar>
     </div>
 
-    <div class="content">
+    <div class="content" *ngIf="activeUser._id && activeUser._id.length > 0">
       <div class="contact-profile">
         <div
           class="contact-img"
           (click)="expandStatuses = !expandStatuses"
           [ngStyle]="{ background: 'red' }"
         >
-          <h4 class="text-center pt-2">{{ activeUser.name[0] }}</h4>
+          <h4 class="text-center pt-2">{{ activeUser.first_name![0] }}</h4>
         </div>
         <!-- <img class="contact-img" [src]="activeUser.img" alt="" /> -->
-        <p>{{ activeUser.name }}</p>
+        <p>{{ activeUser.first_name }} {{ activeUser.last_name }}</p>
         <div class="social-media">
           <i class="fa fa-facebook" aria-hidden="true"></i>
           <i class="fa fa-twitter" aria-hidden="true"></i>
@@ -129,7 +38,7 @@
                 {{
                   msg.type === "sent"
                     ? currentUser.first_name![0]
-                    : activeUser.name[0]
+                    : activeUser.first_name![0]
                 }}
               </h6>
             </div>
@@ -161,3 +70,5 @@
     </div>
   </div>
 </div>
+
+<ng-template #load></ng-template>

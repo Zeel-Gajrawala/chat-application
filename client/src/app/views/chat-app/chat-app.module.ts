@@ -5,11 +5,13 @@ import { ChatAppRoutingModule } from './chat-app-routing.module';
 import { ChatAppComponent } from './chat-app/chat-app.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SidebarComponent } from './chat-app/sidebar/sidebar.component';
 
 
 @NgModule({
   declarations: [
-    ChatAppComponent
+    ChatAppComponent,
+    SidebarComponent
   ],
   imports: [
     CommonModule,
