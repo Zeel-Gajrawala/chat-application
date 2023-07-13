@@ -67,7 +67,7 @@ b. Generate `.env` file on root level of server folder or Copy and rename `.env.
 
 c. Add above variables and its values to `.env` file (set `PORT` as `8000`).
 
-d. Run To start the NodeJS Server
+d. To Start the NodeJS Server
 
 ```bash
   node server.js
@@ -87,7 +87,7 @@ a. Open [Client](./client/) folder from application directory in your terminal a
 
 b. Open [environments.ts](./client/src/environments/environment.ts) from environments folder and change the `API_ENDPOINT` if your server is not running on `Port 8000`
 
-c. Start the server
+c. To Start the Angular Server
 
 ```bash
   npm start
