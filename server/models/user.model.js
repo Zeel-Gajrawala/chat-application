@@ -57,14 +57,30 @@ userSchema.statics.addRoomIdInSenderAndReceiver = async function (
 ) {
   try {
     let users = [];
-    const senderUsers = await this.findByIdAndUpdate(
-      senderId,
-      { $set: { roomId: senderRoom } },
+    const senderUsers = await this.findOneAndUpdate(
+      { _id: senderId },
+      [
+        {
+          $set: {
+            roomId: {
+              $mergeObjects: ["$roomId", senderRoom],
+            },
+          },
+        },
+      ],
       { new: true }
     );
-    const receiverUsers = await this.findByIdAndUpdate(
-      receiverId,
-      { $set: { roomId: receiverRoom } },
+    const receiverUsers = await this.findOneAndUpdate(
+      { _id: receiverId },
+      [
+        {
+          $set: {
+            roomId: {
+              $mergeObjects: ["$roomId", receiverRoom],
+            },
+          },
+        },
+      ],
       { new: true }
     );
     users.push(senderUsers, receiverUsers);

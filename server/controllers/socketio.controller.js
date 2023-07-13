@@ -25,13 +25,13 @@ exports = module.exports = function (io) {
   });
 
   io.on("connection", (socket) => {
-    socket.on("join", (data) => {
-      socket.join(data.roomId);
-      socket.broadcast.to(data.roomId).emit("user joined");
+    socket.on("join", (roomId) => {
+      socket.join(roomId);
+      // socket.broadcast.to(user.room).emit("user joined");
     });
 
     socket.on("message", (data) => {
-      io.in(data.room).emit("new message", {
+      socket.broadcast.emit("new message", {
         user: data.user,
         room: data.room,
         message: data.message,
