@@ -5,7 +5,8 @@
         [users]="users"
         [currentUser]="currentUser"
         [chatArray]="chatArray"
-        [(activeUser)]="activeUser"
+        [activeUser]="activeUser"
+        (emitActiveUser)="setUserActive($event)"
       ></app-sidebar>
     </div>
 
@@ -17,7 +18,6 @@
         >
           <h4 class="text-center mb-0">{{ activeUser.first_name![0] }}</h4>
         </div>
-        <!-- <img class="contact-img" [src]="activeUser.img" alt="" /> -->
         <p>{{ activeUser.first_name }} {{ activeUser.last_name }}</p>
 
         <div class="logout" (click)="logout()">
@@ -50,13 +50,6 @@
                 }}
               </h6>
             </div>
-            <!-- <img
-              [ngClass]="msg.type === 'sent' ? 'sender-img' : 'receiver-img'"
-              [src]="
-                msg.type === 'sent' ? activeUser.img : messageReceivedFrom.img
-              "
-              alt=""
-            /> -->
             <p>{{ msg?.message || "" }}</p>
           </li>
         </ul>
@@ -65,12 +58,12 @@
         <div class="wrap">
           <input
             type="text"
-            #msgInput
+            [(ngModel)]="inputMessage"
             placeholder="Write your message..."
-            (keyup.enter)="addNewMessage(msgInput)"
+            (keyup.enter)="addNewMessage()"
           />
           <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-          <button class="submit" (click)="addNewMessage(msgInput)">
+          <button class="submit" (click)="addNewMessage()">
             <img class="w-50" src="assets/images/icons/send.png" alt="send" />
           </button>
         </div>

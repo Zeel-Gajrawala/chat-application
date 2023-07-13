@@ -19,8 +19,8 @@ export class SocketioService {
     });
   }
 
-  joinRoom(data: { receiverId: string, roomId: string }) {
-    this.socket.emit('join', data);
+  joinRoom(roomId: string) {
+    this.socket.emit('join', roomId);
   }
 
   receiveMessages(): Observable<any> {

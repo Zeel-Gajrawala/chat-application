@@ -7,8 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { JwtService } from 'src/app/core/services/jwt/jwt.service';
-import { STATUSES } from './model';
-import { USERS } from './data';
 import { User } from 'src/app/core/models/user';
 import { SocketioService } from 'src/app/core/services/socketio/socketio.service';
 import { UserService } from 'src/app/core/services/user/user.service';
@@ -29,6 +27,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
   roomId: string = '';
   messageArr: { userId: string, message: string }[] = [];
   chatArray: { roomId: string, chat: { userId: string, message: string }[] }[] = [];
+  inputMessage: string = '';
 
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
@@ -42,26 +41,42 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit() {
     this.initialiseSocketConnection();
     this.currentUser = this.jwtService.getTokenPayload();
-    this.getUsers();
+    this.getUsers(true);
 
     this.socketioService
       .receiveMessages()
       .subscribe((data: { user: string, room: string, message: string }) => {
 
-        if (this.roomId && this.roomId.length > 0) {
+        if (data.room && data.room.length > 0 && data.message != 'user joined') {
           setTimeout(() => {
-            this.chatArray = this.socketioService.getStoredChat();
-            let index: number = this.chatArray.findIndex((chat) => chat.roomId === this.roomId);
 
-            this.chatArray[index].chat.push({
-              userId: data.user,
-              message: data.message
-            });
+            this.chatArray = this.socketioService.getStoredChat();
+            let index: number = this.chatArray.findIndex((chat) => chat.roomId == data.room);
+
+            if (index > -1) {
+
+              this.chatArray[index].chat.push({
+                userId: data.user,
+                message: data.message
+              });
+            } else {
+
+              let newChat: { roomId: string, chat: { userId: string, message: string }[] } = {
+                roomId: data.room,
+                chat: [{
+                  userId: data.user,
+                  message: data.message
+                }]
+              };
+
+              this.chatArray.push(newChat);
+            }
 
             this.socketioService.storeChat(this.chatArray);
 
-            if (index > -1) {
-              this.messageArr = this.chatArray[index].chat;
+            let currentRoomIndex: number = this.chatArray.findIndex((chat) => chat.roomId == this.roomId);
+            if (currentRoomIndex > -1) {
+              this.messageArr = this.chatArray[currentRoomIndex].chat;
             }
           }, 500);
         }
@@ -76,7 +91,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.socketioService.disconnect();
   }
 
-  getUsers(setActiveUser: boolean = true) {
+  getUsers(setActiveUser: boolean) {
     this.userService.getAllUserExceptCurrent().subscribe((res: User[]) => {
       if (res && res.length > 0) {
         this.users = res;
@@ -109,7 +124,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.messageArr = this.chatArray[index].chat;
     }
 
-    this.joinRoom(this.activeUser._id!, this.roomId);
+    this.joinRoom(this.roomId);
   }
 
   initialiseSocketConnection() {
@@ -120,8 +135,8 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
-  joinRoom(receiverId: string, roomId: string) {
-    this.socketioService.joinRoom({ receiverId, roomId });
+  joinRoom(roomId: string) {
+    this.socketioService.joinRoom(roomId);
   }
 
   createRoom(roomData: { sender_id: string, receiver_Id: string, roomId: string }) {
@@ -146,14 +161,13 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
     return result;
   }
 
-  addNewMessage(inputField: any) {
-    const val = inputField.value?.trim();
-    if (val.length) {
+  addNewMessage() {
+    if (this.inputMessage && this.inputMessage.length) {
 
       this.socketioService.sendMessage({
         user: this.currentUser.user_id!,
         room: this.roomId,
-        message: val,
+        message: this.inputMessage,
       });
 
       this.chatArray = this.socketioService.getStoredChat();
@@ -163,7 +177,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
 
         this.chatArray[index].chat.push({
           userId: this.currentUser.user_id!,
-          message: val
+          message: this.inputMessage
         });
       } else {
 
@@ -171,7 +185,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
           roomId: this.roomId,
           chat: [{
             userId: this.currentUser.user_id!,
-            message: val
+            message: this.inputMessage
           }]
         };
 
@@ -179,8 +193,12 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
       }
 
       this.socketioService.storeChat(this.chatArray);
+
+      if (index > -1) {
+        this.messageArr = this.chatArray[index].chat;
+      }
     }
-    inputField.value = '';
+    this.inputMessage = '';
   }
 
   scrollToBottom(): void {
