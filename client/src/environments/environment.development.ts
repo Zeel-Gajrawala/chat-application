@@ -1,3 +1,3 @@
 export const environment = {
-    API_ENDPOINT: 'http://localhost:8000/'
+    API_ENDPOINT: 'https://chat-app-ow0i.onrender.com'
 };
