@@ -8,6 +8,8 @@ import { User } from 'src/app/core/models/user';
 })
 export class SidebarComponent implements OnInit {
 
+  search: any;
+
   @Input() activeUser: User = {};
   @Input() users: User[] = [];
   @Input() currentUser: User = {};

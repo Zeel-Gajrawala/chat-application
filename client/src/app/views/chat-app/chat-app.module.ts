@@ -6,6 +6,7 @@ import { ChatAppComponent } from './chat-app/chat-app.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './chat-app/sidebar/sidebar.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SidebarComponent } from './chat-app/sidebar/sidebar.component';
     ChatAppRoutingModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class ChatAppModule { }

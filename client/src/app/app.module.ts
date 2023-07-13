@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './core/auth/interceptor/auth.interceptor';
+import { SharedModule } from './views/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AuthInterceptor } from './core/auth/interceptor/auth.interceptor';
     HttpClientModule,
     CoreModule,
     AuthModule,
+    SharedModule,
     ToastrModule.forRoot({
       closeButton: true
     }),
