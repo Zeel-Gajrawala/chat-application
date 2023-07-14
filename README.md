@@ -1,6 +1,6 @@
 # CHAT APPLICATION
 
-The [Chat Application](https://chat-application-plum.vercel.app/auth/login) is build using MEAN stack (MongoDB, Express, AngularJS and Node.js) and socket.io.
+The Chat Application is build using MEAN stack (MongoDB, Express, AngularJS and Node.js) and socket.io. View the hosted application [chat-app](https://chat-application-plum.vercel.app/auth/login).
 
 #### Features
 
@@ -22,23 +22,23 @@ The [Chat Application](https://chat-application-plum.vercel.app/auth/login) is b
 
 ## Files & Folders
 
-| File                               | Description                                                  |
-| ---------------------------------- | ------------------------------------------------------------ |
-| [**.env-sample**](./.env.example) | Set custom [environment variables](https://en.wikipedia.org/wiki/Environment_variable) for your application. This is the proper way to store credentials and other sensitive values.
-| [**index.js**](./server.js) | Main server file that the Node.js runtime uses. It contains all the server logic.
-| [**/server**](./server) | Folder for files used by the Node.js server
-| [/server/models/**user.model.js**](./server/models/user.model.js) | Model for storing users in MongoDB
-| [/server/config/**db.js**](./server/config/db.js) | Files for Database connection configurations
-| [/server/middleware/**authenticate-user.middleware.js**](./server/middleware/authenticate-user.middleware.js) | Files used for token verification
-| [/server/**routes**](./server/routes) | Folder for files used for defining different API routes
-| [/server/**controllers**](./server/controllers) | Folder for files used for defining business logic used to perform on different API routes
-| [**/client**](./client) | Angular application for manipulating and rendering data in browser
-| [/client/**views**](./client/views) | Folder for [modules](https://angular.io/guide/architecture-modules) used to group components/pipes/directives etc. 
-| [/client/**core**](./client/core) | [Module](https://angular.io/guide/architecture-modules) used to group services/interface/auth-guards/interceptor that can be used in entire application etc. 
+| File                                                                                                          | Description                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [**.env-sample**](./.env.example)                                                                             | Set custom [environment variables](https://en.wikipedia.org/wiki/Environment_variable) for your application. This is the proper way to store credentials and other sensitive values. |
+| [**index.js**](./server.js)                                                                                   | Main server file that the Node.js runtime uses. It contains all the server logic.                                                                                                    |
+| [**/server**](./server)                                                                                       | Folder for files used by the Node.js server                                                                                                                                          |
+| [/server/models/**user.model.js**](./server/models/user.model.js)                                             | Model for storing users in MongoDB                                                                                                                                                   |
+| [/server/config/**db.js**](./server/config/db.js)                                                             | Files for Database connection configurations                                                                                                                                         |
+| [/server/middleware/**authenticate-user.middleware.js**](./server/middleware/authenticate-user.middleware.js) | Files used for token verification                                                                                                                                                    |
+| [/server/**routes**](./server/routes)                                                                         | Folder for files used for defining different API routes                                                                                                                              |
+| [/server/**controllers**](./server/controllers)                                                               | Folder for files used for defining business logic used to perform on different API routes                                                                                            |
+| [**/client**](./client)                                                                                       | Angular application for manipulating and rendering data in browser                                                                                                                   |
+| [/client/**views**](./client/views)                                                                           | Folder for [modules](https://angular.io/guide/architecture-modules) used to group components/pipes/directives etc.                                                                   |
+| [/client/**core**](./client/core)                                                                             | [Module](https://angular.io/guide/architecture-modules) used to group services/interface/auth-guards/interceptor that can be used in entire application etc.                         |
 
 ## Running Locally
 
-1. Clone or Download this repo onto your machine. 
+1. Clone or Download this repo onto your machine.
 
 ```bash
   git clone https://github.com/Zeel-Gajrawala/chat-application.git
@@ -58,12 +58,12 @@ a. Open [Server](./server/) folder from application directory in your terminal a
 
 b. Generate `.env` file on root level of server folder or Copy and rename `.env.example` to `.env`.
 
-| Variable Name                     | Description                    |
-|-----------------------------------|--------------------------------|
-| PORT                   | Port Number used to run server on specific port. |
-| MONGODB_URI                  | MongoDB connection URI used to connect to a MongoDB deployment. |
-| TOKEN_KEY               | Private key of your App that is used to sign the JWTs. |
-| JWT_EXP               | JWT's expiration duration after which the user must re-authenticate to get a new JWT. |
+| Variable Name | Description                                                                           |
+| ------------- | ------------------------------------------------------------------------------------- |
+| PORT          | Port Number used to run server on specific port.                                      |
+| MONGODB_URI   | MongoDB connection URI used to connect to a MongoDB deployment.                       |
+| TOKEN_KEY     | Private key of your App that is used to sign the JWTs.                                |
+| JWT_EXP       | JWT's expiration duration after which the user must re-authenticate to get a new JWT. |
 
 c. Add above variables and its values to `.env` file (set `PORT` as `8000`).
 
