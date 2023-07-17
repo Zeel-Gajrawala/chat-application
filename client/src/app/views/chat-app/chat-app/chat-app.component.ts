@@ -11,7 +11,6 @@ import { User } from 'src/app/core/models/user';
 import { SocketioService } from 'src/app/core/services/socketio/socketio.service';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-app',
@@ -34,8 +33,7 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(
     private jwtService: JwtService,
     private socketioService: SocketioService,
-    private userService: UserService,
-    private router: Router
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -206,10 +204,5 @@ export class ChatAppComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.myScrollContainer.nativeElement.scrollTop =
         this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) { }
-  }
-
-  logout() {
-    this.jwtService.clearStorage();
-    this.router.navigateByUrl('/auth/login');
   }
 }

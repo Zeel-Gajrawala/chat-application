@@ -12,6 +12,20 @@
      list-style: none;
  }
 
+ #profile .logout {
+     height: 60px;
+ }
+
+ #profile .logout img {
+     margin-left: 14px;
+     cursor: pointer;
+     width: 35%;
+ }
+
+ #profile .logout img:hover {
+     color: #435f7a;
+ }
+
  @media screen and (max-width: 735px) {
      #sidepanel {
          width: 58px;
